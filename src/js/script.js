@@ -1,6 +1,5 @@
+'use strict';
 {
-  ('use strict');
-
   const select = {
     form: '.filters',
 
@@ -26,9 +25,6 @@
     ),
   };
 
-  const favoritesBooks = [];
-  const filters = [];
-
   class BooksList {
     constructor() {
       const thisBooksList = this;
@@ -44,7 +40,7 @@
 
       for (const book of this.data) {
         const ratingBgc = thisBooksList.determineRatingBgc(book.rating);
-        const ratingWidth = ratingBgc * 10;
+        const ratingWidth = book.rating * 10;
         book.ratingBgc = ratingBgc;
         book.ratingWidth = ratingWidth;
   
@@ -70,6 +66,9 @@
     initActions() {
       const thisBooksList = this;
 
+      const filters = [];
+      const favoritesBooks = [];
+
       thisBooksList.dom.filteredBooks.addEventListener('click', function (event) {
         const clickedElement = event.target;
         if (
@@ -84,7 +83,7 @@
             filters.splice(index, 1);
           }
         }
-        thisBooksList.filterBooks();
+        thisBooksList.filterBooks(filters);
       });
 
       thisBooksList.dom.booksList.addEventListener('dblclick', function (event) {
@@ -104,8 +103,8 @@
         }
       });
     }
-  
-    filterBooks() {
+
+    filterBooks(filters) {
       const dataBooks = dataSource.books;
 
       for (const book of dataBooks) {
